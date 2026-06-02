@@ -35,31 +35,35 @@ def add_task(title, description, due_date):
 def mark_task_as_complete(index, tasks=tasks):
     if 0 <= index < len(tasks):
         tasks[index]["completed"] = True
-        print("Task marked as complete!")
+        print("Task marked as complete")
     else:
-        print("Invalid task number.")
+        print("Invalid task index")
 
 # Implement view_pending_tasks function
 def view_pending_tasks(tasks=tasks):
-    pending_tasks = [task for task in tasks if not task["completed"]]
+    pending_found = False
 
-    if not pending_tasks:
+    for index, task in enumerate(tasks):
+        if not task["completed"]:
+            pending_found = True
+            print(f"\nTask {index}")
+            print(f"Title: {task['title']}")
+            print(f"Description: {task['description']}")
+            print(f"Due Date: {task['due_date']}")
+
+    if not pending_found:
         print("No pending tasks.")
-        return
-
-    print("\nPending Tasks:")
-    for i, task in enumerate(pending_tasks, start=1):
-        print(f"{i}. {task['title']}")
-        print(f"   Description: {task['description']}")
-        print(f"   Due Date: {task['due_date']}")
-        print()
 
 # Implement calculate_progress function
 def calculate_progress(tasks=tasks):
     if len(tasks) == 0:
         return 0
 
-    completed_tasks = sum(1 for task in tasks if task["completed"])
-    progress = (completed_tasks / len(tasks)) * 100
+    completed_tasks = 0
 
+    for task in tasks:
+        if task["completed"]:
+            completed_tasks += 1
+
+    progress = (completed_tasks / len(tasks)) * 100
     return progress

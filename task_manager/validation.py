@@ -1,13 +1,13 @@
 from datetime import datetime
 
 def validate_task_title(title):
-    if not title.strip():
+    if len(title.strip()) == 0:
         print("Error: Task title cannot be empty.")
         return False
     return True
 
 def validate_task_description(description):
-    if not description.strip():
+    if len(description.strip()) == 0:
         print("Error: Task description cannot be empty.")
         return False
     return True
