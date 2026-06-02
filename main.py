@@ -1,61 +1,65 @@
-# Import functions from task_manager.task_utils package
+from datetime import datetime
 
-from task_utils import (
-    add_task,
-    mark_task_as_complete,
-    view_pending_tasks,
-    calculate_progress,
-    tasks
+# Import validation functions
+from task_manager.validation import (
+    validate_task_title,
+    validate_task_description,
+    validate_due_date
 )
 
-# Define the main function
-def main():
-    while True:
-        print("\nTask Management System")
-        print("1. Add Task")
-        print("2. Mark Task as Complete")
-        print("3. View Pending Tasks")
-        print("4. View Progress")
-        print("5. Exit")
+# Define tasks list
+tasks = []
 
-        choice = input("Enter your choice (1-5): ")
+# Implement add_task function
+def add_task(title, description, due_date):
+    if not validate_task_title(title):
+        return
 
-        if choice == "1":
-            title = input("Enter task title: ")
-            description = input("Enter task description: ")
-            due_date = input("Enter due date (YYYY-MM-DD): ")
+    if not validate_task_description(description):
+        return
 
-            add_task(title, description, due_date)
+    if not validate_due_date(due_date):
+        return
 
-        elif choice == "2":
-            if not tasks:
-                print("No tasks available.")
-                continue
+    task = {
+        "title": title,
+        "description": description,
+        "due_date": due_date,
+        "completed": False
+    }
 
-            print("\nTasks:")
-            for i, task in enumerate(tasks):
-                status = "Completed" if task["completed"] else "Pending"
-                print(f"{i}. {task['title']} - {status}")
+    tasks.append(task)
+    print("Task added successfully!")
 
-            try:
-                index = int(input("Enter task number to mark complete: "))
-                mark_task_as_complete(index)
-            except ValueError:
-                print("Please enter a valid number.")
+# Implement mark_task_as_complete function
+def mark_task_as_complete(index, tasks=tasks):
+    if 0 <= index < len(tasks):
+        tasks[index]["completed"] = True
+        print("Task marked as complete!")
+    else:
+        print("Invalid task number.")
 
-        elif choice == "3":
-            view_pending_tasks()
+# Implement view_pending_tasks function
+def view_pending_tasks(tasks=tasks):
+    pending_tasks = [task for task in tasks if not task["completed"]]
 
-        elif choice == "4":
-            progress = calculate_progress()
-            print(f"Progress: {progress:.2f}% completed")
+    if not pending_tasks:
+        print("No pending tasks.")
+        return
 
-        elif choice == "5":
-            print("Exiting the program...")
-            break
+    print("\nPending Tasks:")
+    for i, task in enumerate(pending_tasks, start=1):
+        print(f"{i}. {task['title']}")
+        print(f"   Description: {task['description']}")
+        print(f"   Due Date: {task['due_date']}")
+        print()
 
-        else:
-            print("Invalid choice. Please try again.")
+# Implement calculate_progress function
+def calculate_progress(tasks=tasks):
+    if len(tasks) == 0:
+        return 0
 
-if __name__ == "__main__":
-    main()
+    completed_tasks = sum(1 for task in tasks if task["completed"])
+    progress = (completed_tasks / len(tasks)) * 100
+
+    return progress
