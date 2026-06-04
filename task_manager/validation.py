@@ -7,9 +7,9 @@ def validate_task_title(title):
     return True
 
 def validate_task_description(description):
-    if len(description.strip()) == 0:
-        print("Error: Task description cannot be empty.")
-        return False
+    if len(description) > 500:
+       
+        raise ValueError("Description too long")
     return True
 
 def validate_due_date(due_date):
