@@ -1,7 +1,7 @@
 from datetime import datetime
 
 # Import validation functions
-from validation import (
+from task_manager.validation import (
     validate_task_title,
     validate_task_description,
     validate_due_date
@@ -29,7 +29,7 @@ def add_task(title, description, due_date):
     }
 
     tasks.append(task)
-    print("Task marked as complete!")
+    print("Task added successfully!")
 
 # Implement mark_task_as_complete function
 def mark_task_as_complete(index, tasks=tasks):
@@ -67,4 +67,3 @@ def calculate_progress(tasks=tasks):
 
     progress = (completed_tasks / len(tasks)) * 100
     return progress
-
