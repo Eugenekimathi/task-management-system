@@ -4,8 +4,8 @@ from task_manager.task_utils import (
     mark_task_as_complete,
     view_pending_tasks,
     calculate_progress,
-    tasks
-)
+    tasks)
+
 
 # Define the main function
 def main():
