@@ -33,7 +33,8 @@ def add_task(title, description, due_date):
 
 # Implement mark_task_as_complete function
 def mark_task_as_complete(index):
-    if 0 <= index < len(tasks):
+    index -= 1
+    if index < 0 or index >= len(tasks):
         tasks[index]["completed"] = True
         print("Task marked as complete")
     
